@@ -3,6 +3,8 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const { animals } = require('./data/animals');
 
+// link https:/shrouded-sierra-93995.herokuapp.com/api/animals
+
 
 function filterByQuery(query, animalsArray) {
     let personalityTraitsArray = [];
@@ -48,6 +50,14 @@ app.get('/api/animals', (req, res) => {
         results = filterByQuery(req.query, results);
     }
     res.json(results);
+});
+app.get('/api/animals/:id', (req, res) => {
+    const result = findById(req.params.id, animals);
+    if (result) {
+        res.json(result);
+    } else {
+        res.send(404);
+    }
 });
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
